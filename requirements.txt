@@ -1,5 +1,6 @@
 flask
+loguru
 pymysql
 flask-migrate
 flask-sqlalchemy
-
+flask_jwt_extended
