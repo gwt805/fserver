@@ -23,8 +23,8 @@ dbn = os.environ.get('DBN')
 # database
 db = SQLAlchemy()
 migrate = Migrate()
-db_uri = f'mysql+pymysql://{user}:{pwd}@{host}:3306/{dbn}' # mysql+mysql://username:password@host:port/database_name
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+#db_uri = f'mysql+pymysql://{user}:{pwd}@{host}:3306/{dbn}' # mysql+mysql://username:password@host:port/database_name
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///fserver.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app=app)
 migrate.init_app(app=app, db=db)
