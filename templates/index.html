@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/lib/layui-v2.8.6/layui/css/layui.css">
+    <script src="/static/lib/layui-v2.8.6/layui/layui.js"></script>
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="/static/lib/jquery/jquery-3.7.0.min.js"></script>
+    <script src="/static/lib/axios/axios.min.js"></script>
+</head>
+
+<body>
+    <ul class="layui-nav" style="position: absolute; background: transparent; width: 100%;">
+        <li class="layui-nav-item layui-this"><a lay-on="index"><b>首页</b></a></li>
+        <li class="layui-nav-item"><a lay-on="showapi"><b>API 查看</b></a></li>
+        <li class="layui-nav-item" style="float: right;">
+            <a style="user-select: none;"><img class="layui-nav-img" draggable="false"><b><span
+                        id="name">我</span></b></a>
+            <dl class="layui-nav-child">
+                <dd class="user-item" lay-on="page"><a draggable="false">个人信息</a></dd>
+                <dd class="user-item" lay-on="updpwd"><a draggable="false">密码修改</a></dd>
+                <dd class="user-item" lay-on="logout"><a draggable="false">注销</a></dd>
+            </dl>
+        </li>
+    </ul>
+    <form class="layui-form layui-form-pane" id="selfinfo" style="display: none;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">头像链接</label>
+            <div class="layui-input-block">
+                <input type="text" name="img" id="img" lay-verify="required" placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="nickname" id="nickname" placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" id="username" placeholder="请输入" autocomplete="off"
+                    class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="email" id="email" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-block">
+                <input type="text" name="isadmin" id="isadmin" placeholder="请输入" autocomplete="off" class="layui-input"
+                    disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">秘钥</label>
+            <div class="layui-input-block">
+                <input type="text" name="key" id="key" placeholder="请输入" autocomplete="off" class="layui-input"
+                    disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">个人简介</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" id="description" placeholder="请输入" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-on="saveinfo">保存</button>
+                <button type="button" class="layui-btn" lay-on="closeinfo">取消</button>
+            </div>
+        </div>
+    </form>
+    <form class="layui-form layui-form-pane" id="pwdform" style="display: none;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="pwd" id="pwd" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="pwd1" id="pwd1" placeholder="请输入新密码" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-on="pwdsave">修改</button>
+                <button type="button" class="layui-btn" lay-on="pwdclose">取消</button>
+            </div>
+        </div>
+    </form>
+    <div class="yiyan">
+        <p id="quoteText"> <span class="cursor">_</span></p>
+    </div>
+    <div class="apis" style="visibility: hidden;">
+        <div class="api" title="每天更新十二星座运势,十二星座爱情运势,配对星座等" onclick="goapis('https://api.vvhan.com/horoscope.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">每日星座运势API接口</p>
+        </div>
+        <div class="api" title="网易云音乐 随机歌曲输出" onclick="goapis('https://api.vvhan.com/wangyisj.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">网易云随机歌曲API接口</p>
+        </div>
+        <div class="api" title="在网页的任何地方添加透明波浪" onclick="goapis('https://api.vvhan.com/bolang.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">HTML的svg透明波浪特效API接口</p>
+        </div>
+        <div class="api" title="每天60秒读懂世界API接口" onclick="goapis('https://api.vvhan.com/60s.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">每天60秒读懂世界API接口</p>
+        </div>
+        <div class="api" title="每日一句励志英语" onclick="goapis('https://api.vvhan.com/en.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">每日一句励志英语API接口</p>
+        </div>
+        <div class="api" title="每天更新摸鱼日历" onclick="goapis('https://api.vvhan.com/moyu.html')">
+            <img src="/static/img/logo_api.svg" draggable="false">
+            <p class="apiName">摸鱼人日历API接口 - 公众号:摸鱼人日历</p>
+        </div>
+    </div>
+    <div class="footer">
+        <span>Copyright © gwt 2023.06</span>
+        <span title="卫龙的Github"><a href="https://github.com/gwt805/" target="_blank"><img src="/static/img/github4.svg"
+                    draggable="false"></a></span>
+        <span title="卫龙的博客园"><a href="https://www.cnblogs.com/taotao0805/" target="_blank"><img
+                    src="/static/img/bky.png" draggable="false" style="width: 28px;"></a></span>
+    </div>
+    <span class="js-cursor-container"></span>
+</body>
+<script src="/static/js/disable.js"></script>
+<script src="/static/js/mouse.js"></script>
+<script src="/static/js/mouseclick.js"></script>
+<script src="/static/js/zhizhu.js"></script>
+<script src="/static/js/word.js"></script>
+<script>
+    const layer = layui.layer;
+    const util = layui.util;
+    const elements = document.querySelectorAll('.api');
+
+    if (window.localStorage.getItem("img") == "null") {
+        $(".layui-nav-img").attr("src", "../static/img/default.jpg");
+    }
+    else {
+        $(".layui-nav-img").attr("src", window.localStorage.getItem("img"));
+    }
+
+    elements.forEach(element => {
+        const p = element.querySelector('p.apiName');
+        const duration = p.offsetWidth / 50; // 每秒移动速度为 50px
+        p.style.animationDuration = duration + 's';
+    });
+
+    function goapis(url) {
+        window.open(url, '_blank');
+    }
+
+    function sendmsg(msg) {
+        const loadIndex = layer.msg(msg);
+        setTimeout(function () {
+            layer.close(loadIndex)
+        }, 1500);
+    }
+
+    util.on('lay-on', {
+        'updpwd': () => {
+            layer.open({
+                title: '修改密码',
+                type: 1,
+                resize: false,
+                area: ['420px', '210px'], // 宽,高
+                content: $("#pwdform"),
+                cancel: function (index, layero) {
+                    $("#pwdform").css('display', 'none');
+                    layer.close(index);
+                }
+            });
+        },
+        'pwdsave': () => {
+            if ($("#pwd").val() == "" || $("#pwd1").val() == "") {
+                sendmsg("密码不允许为空!");
+            }
+            else if ($("#pwd").val() != $("#pwd1").val()) {
+                sendmsg("两个密码不一致!");
+            }
+            else {
+                axios({
+                    method: 'put',
+                    url: '/api/userupdpwd/' + window.localStorage.getItem('username'),
+                    headers: { "Authorization": window.localStorage.getItem('access_token') },
+                    dataType: 'application/json',
+                    data: {
+                        password: $("#pwd").val(),
+                    }
+                }).then(function (res) {
+                    if (res.data.code == 0) {
+                        layer.closeAll();
+                        sendmsg(res.data.msg);
+                        window.location.href = "/login";
+                    }
+                    else { sendmsg(res.data.msg); }
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            }
+        },
+        'pwdclose': () => {
+            layer.closeAll();
+            $("#pwdform").css('display', 'none');
+        },
+        'page': () => {
+            username = window.localStorage.getItem('username');
+            axios({
+                method: 'get',
+                url: '/api/userinfo/' + username,
+                headers: { "Authorization": window.localStorage.getItem('access_token') }
+            })
+                .then(function (res) {
+                    $("#img").val(res.data.data.img);
+                    $("#nickname").val(res.data.data.nickname);
+                    $("#username").val(res.data.data.username);
+                    $("#isadmin").val(res.data.data.isadmin == 0 ? "群众" : "管理员");
+                    $("#email").val(res.data.data.email);
+                    $("#key").val(res.data.data.key);
+                    $("#description").val(res.data.data.description);
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+            layer.open({
+                title: '个人信息',
+                type: 1,
+                resize: false,
+                area: ['420px', '480px'], // 宽,高
+                content: $("#selfinfo"),
+                cancel: function (index, layero) {
+                    $("#selfinfo").css('display', 'none');
+                    layer.close(index);
+                }
+            });
+        },
+        'saveinfo': () => {
+            axios({
+                method: 'put',
+                url: '/api/userupd/' + window.localStorage.getItem('username'),
+                headers: { "Authorization": window.localStorage.getItem('access_token') },
+                dataType: 'application/json',
+                data: {
+                    img: $("#img").val(),
+                    nickname: $("#nickname").val(),
+                    email: $("#email").val(),
+                    description: $("#description").val()
+                }
+            }).then(function (res) {
+                if (res.data.code == 0) {
+                    const username = window.localStorage.getItem('username');
+                    window.localStorage.setItem('img', res.data.data.img);
+                    window.localStorage.setItem('nickname', res.data.data.nickname);
+                    $(".layui-nav-img").prop("src", res.data.data.img);
+                    $("#name").html(res.data.data.nickname + "(" + username + ")");
+                    layer.closeAll();
+                    $("#selfinfo").css('display', 'none');
+                    sendmsg(res.data.msg);
+                }
+                else { sendmsg(res.data.msg); }
+            }).catch(function (error) {
+                console.log(error)
+            });
+        },
+        'closeinfo': () => {
+            layer.closeAll();
+            $("#selfinfo").css('display', 'none');
+        },
+        'index': () => {
+            $(".yiyan").css('visibility', 'visible');
+            $(".apis").css('visibility', 'hidden');
+        },
+        'showapi': () => {
+            $(".yiyan").css('visibility', 'hidden');
+            $(".apis").css('visibility', 'visible');
+        },
+        'logout': () => { window.localStorage.clear(); }
+    });
+
+
+    $(document).ready(() => {
+        axios.get('https://saying.api.azwcl.com/saying/get').then(function (res) {
+            if (res.data.code == 200) { printword([res.data.data.content]); }
+            else { printword(["世界上没有比结实的肌肉和新鲜的皮肤更加美丽的衣裳。"]); }
+        }).catch(function (error) {
+            console.log(error)
+        });
+    })
+
+</script>
+
+</html>

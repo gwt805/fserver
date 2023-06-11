@@ -1,0 +1,175 @@
+* {
+    padding: 0;
+    margin: 0;
+    cursor: url("../img/mouse.png"), default;
+}
+
+body {
+    background-image: url("../img/background.jpg");
+    overflow: hidden;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #00000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(60, 60, 67, 0.4);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(68, 147, 199);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: rgb(68, 147, 199);
+}
+
+/*定义两端按钮的样式*/
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/*定义右下角汇合处的样式*/
+::-webkit-scrollbar-corner {
+    display: none;
+}
+
+.layui-nav {
+    user-select: none;
+}
+
+.cursor {
+    opacity: 1;
+    animation: blink 0.2s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@font-face {
+    font-family: czcysjf;
+    src: url('../ttf/czcysjf.ttf');
+}
+
+.yiyan {
+    position: absolute;
+    width: 100%;
+    height: 89.8%;
+    top: 62px;
+    box-sizing: content-box;
+    font-family: czcysjf;
+    text-align: center;
+
+}
+
+.yiyan #quoteText {
+    position: relative;
+    color: rgb(255, 151, 151);
+    font-size: 48px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 20%;
+
+}
+
+.apis {
+    position: absolute;
+    width: 100%;
+    height: 89.8%;
+    box-sizing: border-box;
+    top: 62px;
+    visibility: visible;
+    /* padding-left: 20px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 120px);
+    grid-gap: 50px;
+    grid-row: auto;
+    justify-content: space-around;
+    overflow: auto;
+
+}
+
+.apis div {
+    width: 100%;
+    height: 100px;
+    background-color: rgb(44, 51, 90);
+    opacity: 0.7;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+    border-radius: 5px;
+}
+
+.apis div:hover {
+    background: rgb(83, 97, 155);
+}
+
+.apis div img {
+    width: 40px;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.apis div p {
+    box-sizing: border-box;
+    padding-left: 10px;
+    height: auto;
+    position: relative;
+    top: 70px;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.api:hover p.apiName {
+    animation: slide linear infinite;
+}
+
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    word-break: break-all;
+    word-wrap: break-word;
+    user-select: none;
+}
+
+.footer span svg:hover,
+.footer span img:hover {
+    opacity: 0.7;
+    cursor: url("../imgs/mouse.png"), default;
+}
